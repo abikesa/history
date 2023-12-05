@@ -7,7 +7,7 @@
 ```
 
 1. Genre
-2. History.
+2. [History](https://github.com/abikesa/hvdscwmbft)
    - `Reverence`: When [Zarathustra](https://www.gutenberg.org/files/1998/1998-h/1998-h.htm) had spoken these words, he paused, like one who had not said his last word; and long did he balance the staff doubtfully in his hand. At last he spake thus—and his voice had changed: I now go alone, my disciples! Ye also now go away, and alone! So will I have it. Verily, I advise you: depart from me, and guard yourselves against Zarathustra! And better still: be ashamed of him! Perhaps he hath deceived you. The man of knowledge must be able not only to love his enemies, but also to hate his friends. One requiteth a teacher badly if one remain merely a scholar. And why will ye not pluck at my wreath? Ye `venerate` me; but what if your veneration should some day collapse? Take heed lest a statue crush you! Ye say, ye believe in Zarathustra? But of what account is Zarathustra! Ye are my believers: but of what account are all believers!
    - `Inference`:
    - `Deliverence`: "Critique of 'The Devil Wears Prada' through the Lens of Nietzsche's 'On the Uses and Abuses of History for Life'"
