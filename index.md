@@ -6,7 +6,7 @@
 
 
 ### Dionysus
-- Data: Hunting & Gathering As Much
+- [Data](https://github.com/abikesa/history/blob/main/README.md): Hunting & Gathering As Much
 - Compute: Peasantry as Autoencoded H&G
   
 ### Sing O Muse
