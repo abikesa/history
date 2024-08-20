@@ -551,24 +551,32 @@ document.write(`
 <span class="n">yf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
 <span class="n">xf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sample_rate</span><span class="p">)</span>
 
-<span class="c1"># Plot the frequency spectrum</span>
+<span class="c1"># Modify the x-axis to represent a timeline from biblical times to today</span>
+<span class="n">timeline_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;2000 BC&#39;</span><span class="p">,</span> <span class="s1">&#39;1000 BC&#39;</span><span class="p">,</span> <span class="s1">&#39;Birth of Jesus&#39;</span><span class="p">,</span> <span class="s1">&#39;St. Paul&#39;</span><span class="p">,</span> <span class="s1">&#39;Middle Ages&#39;</span><span class="p">,</span> <span class="s1">&#39;Renaissance&#39;</span><span class="p">,</span> <span class="s1">&#39;Modern Era&#39;</span><span class="p">]</span>
+<span class="n">timeline_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2024</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">timeline_labels</span><span class="p">))</span>  <span class="c1"># positions corresponding to labels</span>
+
+<span class="c1"># Down-sample the y-axis data to match the length of timeline_positions</span>
+<span class="n">yf_sampled</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yf</span><span class="p">[:</span><span class="n">N</span> <span class="o">//</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">yf_downsampled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2024</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">yf_sampled</span><span class="p">)),</span> <span class="n">yf_sampled</span><span class="p">)</span>
+
+<span class="c1"># Plot the frequency spectrum with modified x-axis</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xf</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="mf">2.0</span><span class="o">/</span><span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">yf</span><span class="p">[:</span><span class="n">N</span><span class="o">//</span><span class="mi">2</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">,</span> <span class="n">yf_downsampled</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 
 <span class="c1"># Aesthetics improvements</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Simulated Frequency Spectrum of A440 on a Grand Piano&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency (Hz)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4186</span><span class="p">)</span>  <span class="c1"># Limit to the highest frequency on a piano (C8)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Simulated Frequency Spectrum with Historical Timeline&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Historical Timeline&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Reverence&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">timeline_labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-<span class="c1"># Shading the region for normal speaking range (approximately 85 Hz to 255 Hz)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightpink&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># Shading the period from Birth of Jesus to St. Paul</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">timeline_positions</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightpink&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
 <span class="c1"># Annotate the shaded region</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Normal Speaking Range (500 Hz - 2000 Hz)&#39;</span><span class="p">,</span>
-             <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
-             <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">2500</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Birth of Jesus to St. Paul&#39;</span><span class="p">,</span>
+             <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mf">0.7</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+             <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mi">200</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
              <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&gt;&quot;</span><span class="p">),</span>
              <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
 
@@ -577,7 +585,7 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Customize ticks</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">timeline_positions</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">timeline_labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 
 <span class="c1"># Light grid</span>
@@ -596,14 +604,24 @@ document.write(`
 <span class="expanded">Hide code cell output</span>
 </summary>
 <div class="cell_output docutils container">
-<img alt="../_images/c0265f9458eb5f77bc370fdf863d0c424999cc21732d60a3d126fd5da7d63078.png" src="../_images/c0265f9458eb5f77bc370fdf863d0c424999cc21732d60a3d126fd5da7d63078.png" />
+<img alt="../_images/c6a091816fb8a7f77550b5b2f45074d961485aff114516b4970f3bebf2be1bc8.png" src="../_images/c6a091816fb8a7f77550b5b2f45074d961485aff114516b4970f3bebf2be1bc8.png" />
 </div>
 </details>
 </div>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">V7</span></code> <span class="math notranslate nohighlight">\(S(t)\)</span> Struggle: <code class="docutils literal notranslate"><span class="pre">Chains</span></code> Equal temperament, Proportional hazards, Homoskedastic volatility</p></li>
+</ul>
+<Details>
+   <Summary></Summary>
+      <img src="https://img.freepik.com/premium-vector/footprint-trail-human-walking-route-footsteps-track-shoe-print-path-with-gps-pointers-boot-shoes_1050668-27.jpg" alt="Footprint Trail" />
+</Details>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">i</span></code> <span class="math notranslate nohighlight">\(h(t)\)</span> Deliverance: <code class="docutils literal notranslate"><span class="pre">Equations</span></code> <span id="id3"><sup><a class="reference internal" href="../act3/part3/part3_3.html#id25" title="Friedrich Nietzsche. Human, All Too Human: A Book for Free Spirits, Part II. Project Gutenberg, 1886. Aphorism 140, &quot;Dancing in Chains&quot; discusses the self-imposed constraints in Greek artistry and how these constraints are creatively transformed into perceived ease. URL: https://www.gutenberg.org/cache/epub/37841/pg37841-images.html.">1</a></sup></span> Inherited, Added, Overcome</p></li>
 </ul>
+<Details>
+   <Summary></Summary>
+      <img src="https://www.artnews.com/wp-content/uploads/2023/04/GettyImages-89866432-david.jpg" alt="Footprint Trail" />
+</Details>
 </section>
 <section id="v7-sigma-struggle">
 <h3><code class="docutils literal notranslate"><span class="pre">V7</span></code> <span class="math notranslate nohighlight">\(\sigma\)</span> Struggle<a class="headerlink" href="#v7-sigma-struggle" title="Permalink to this heading">#</a></h3>
